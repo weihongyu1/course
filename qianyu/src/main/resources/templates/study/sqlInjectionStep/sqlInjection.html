@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <title></title>
+
+    <style>
+        p{
+            text-indent: 2em;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div id="nav-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 75px">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+                <a class="navbar-brand" href="#">
+                    <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    千羽
+                </a>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">首页<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">解决方案</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">关于我们</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">企业文化</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">多人协作</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">联系我们</a>
+                        </li>
+                    </ul>
+
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                               aria-label="Search" style="width: 400px">
+                        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">搜素</button>
+                    </form>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <div class="btn-group dropdown">
+                        <button type="button"
+                                class="btn dropdown-toggle btn-outline-success" style="position: relative"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" th:if="${login}" th:text="${login}">
+                            请登录
+                        </button>
+                        <button type="button"
+                                class="btn dropdown-toggle btn-outline-success" style="position: relative"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" th:unless="${login}" th:text="${login}">
+                            请登录
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">个人中心</a>
+                            <a class="dropdown-item" href="#">消息</a>
+                            <a class="dropdown-item" href="#">创作管理</a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger"><a href=""
+                                                                            style="color: #b02a37">退出</a>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <br>
+    <h1 style="margin-left: 100px">SQL注入</h1>
+    <div class="bg-info" style="margin-top:20px;margin-left: 90px;height: 2px;max-width: 1500px"></div>
+</header>
+
+<main style="margin-top: 30px;margin-left: 100px;">
+    <div class="row">
+        <div class="col-3">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs flex-column" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                       aria-controls="home" aria-selected="true">概述</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                       aria-controls="profile" aria-selected="false">原理</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
+                       aria-controls="messages" aria-selected="false">一般步骤</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
+                       aria-controls="settings" aria-selected="false">注入实例1：验证绕过</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="judgement-tab" data-toggle="tab" href="#judgement" role="tab"
+                       aria-controls="settings" aria-selected="false">判断SQL注入点</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="end-tab" data-toggle="tab" href="#end" role="tab"
+                       aria-controls="settings" aria-selected="false">避免SQL注入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="end01-tab" data-toggle="tab" href="#end01" role="tab"
+                       aria-controls="settings" aria-selected="false">JDBC对SQL注入的防御</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="end02-tab" data-toggle="tab" href="#end02" role="tab"
+                       aria-controls="settings" aria-selected="false">MyBatis对SQl注入的防御</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-8 overflow-auto mb-3 mb-md-0 mr-md-3 bg-light"
+             style="padding-left: 150px;padding-right: 150px;height: 650px">
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <h3>概述</h3><br>
+                    <h5 style="font-weight: bolder">什么是SQL？</h5>
+                    <p>SQL 是一门 ANSI 的标准计算机语言，用来访问和操作数据库系统。SQL 语句用于取回和更新数据库中的数据。SQL 可与数据库程序协同工作，比如 MS
+                        Access、DB2、Informix、MS SQL Server、Oracle、Sybase 以及其他数据库系统。</p><br>
+                    <h5 style="font-weight: bolder">什么是SQL注入？</h5>
+                    <img src="/img/course/sqlInjection.png" class="rounded mx-auto d-block img-fluid"
+                         alt="图片未加载">
+                    <br>
+                    <p>SQL 注入（SQL Injection）是发生在 Web
+                        程序中数据库层的安全漏洞，是网站存在最多也是最简单的漏洞。主要原因是程序对用户输入数据的合法性没有判断和处理，导致攻击者可以在 Web 应用程序中事先定义好的 SQL
+                        语句中添加额外的 SQL 语句，在管理员不知情的情况下实现非法操作，以此来实现欺骗数据库服务器执行非授权的任意查询，从而进一步获取到数据信息。</p>
+                    <p>简而言之，SQL 注入就是在用户输入的字符串中加入 SQL 语句，如果在设计不良的程序中忽略了检查，那么这些注入进去的 SQL 语句就会被数据库服务器误认为是正常的 SQL
+                        语句而运行，攻击者就可以执行计划外的命令或访问未被授权的数据。</p>
+                    <p>SQL 注入已经成为互联网世界 Web 应用程序的最大风险，我们有必要从开发、测试、上线等各个环节对其进行防范。下面介绍 SQL 注入的原理，攻击方法和避免 SQL
+                        注入的一些方法。</p>
+
+                </div>
+                <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <h3>注入原理</h3>
+                    <br>
+                    <p>当我们访问动态网页时, Web 服务器会向数据访问层发起 Sql 查询请求，如果权限验证通过就会执行 Sql 语句。</p>
+                    <p>这种网站内部直接发送的Sql请求一般不会有危险，但实际情况是很多时候需要结合用户的输入数据动态构造 Sql 语句，如果用户输入的数据被构造成恶意 Sql 代码，Web
+                        应用又未对动态构造的 Sql 语句使用的参数进行审查，则会带来意想不到的危险。</p>
+                    <p>Sql 注入带来的威胁主要有如下几点：</p>
+                    <ul>
+                        <li>猜解后台数据库，这是利用最多的方式，盗取网站的敏感信息。</li>
+                        <li>绕过认证，列如绕过验证登录网站后台。</li>
+                        <li>注入可以借助数据库的存储过程进行提权等操作</li>
+                    </ul><br>
+
+                    <h5 style="font-weight: bolder">SQL注入原理</h5>
+                    <p>SQL注入主要有一下4点：</p>
+                    <p style="font-weight: bolder">1）恶意拼接查询</p>
+                    <p>我们知道，SQL 语句可以查询、插入、更新和删除数据，且使用分号来分隔不同的命令。例如：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>SELECT * FROM users WHERE user_id = $user_id</code>
+                    </div>
+                    <p>其中，user_id 是传入的参数，如果传入的参数值为“1234; DELETE FROM users”，那么最终的查询语句会变为：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>SELECT * FROM users WHERE user_id = 1234; DELETE FROM users</code>
+                    </div>
+                    <p>如果以上语句执行，则会删除 users 表中的所有数据。</p>
+
+                    <p style="font-weight: bolder">2）利用注释执行非法命令。</p>
+                    <p>SQL 语句中可以插入注释。例如：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>SELECT COUNT(*) AS 'num' FROM game_score WHERE game_id=24411 AND
+                            version=$version</code>
+                    </div>
+                    <p>如果 version 包含了恶意的字符串'-1' OR 3 AND SLEEP(500)--，那么最终查询语句会变为：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>SELECT COUNT(*) AS 'num' FROM game_score WHERE game_id=24411 AND version='-1' OR 3
+                            AND SLEEP(500)</code>
+                    </div>
+                    <p>以上恶意查询只是想耗尽系统资源，SLEEP(500) 将导致 SQL 语句一直运行。如果其中添加了修改、删除数据的恶意指令，那么将会造成更大的破坏。</p>
+
+                    <p style="font-weight: bolder">3）传入非法参数</p>
+                    <p>SQL 语句中传入的字符串参数是用单引号引起来的，如果字符串本身包含单引号而没有被处理，那么可能会篡改原本 SQL 语句的作用。 例如：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>SELECT * FROM user_name WHERE user_name = $user_name</code>
+                    </div>
+                    <p>如果 user_name 传入参数值为 G'chen，那么最终的查询语句会变为：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>SELECT * FROM user_name WHERE user_name ='G'chen'</code>
+                    </div>
+                    <p>一般情况下，以上语句会执行出错，这样的语句风险比较小。虽然没有语法错误，但可能会恶意产生 SQL 语句，并且以一种你不期望的方式运行。</p>
+
+                    <p style="font-weight: bolder">4）添加额外条件</p>
+                    <p>在 SQL 语句中添加一些额外条件，以此来改变执行行为。条件一般为真值表达式。例如：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>UPDATE users SET userpass='$userpass' WHERE user_id=$user_id;</code>
+                    </div>
+                    <p>如果 user_id 被传入恶意的字符串“1234 OR TRUE”，那么最终的 SQL 语句会变为：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>UPDATE users SET userpass= '123456' WHERE user_id=1234 OR TRUE;</code>
+                    </div>
+                    <p>这将更改所有用户的密码。</p>
+                </div>
+                <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                    <h3>一般步骤</h3><br>
+                    <p>
+                        1.
+                        SQL注入点探测。探测SQL注入点是关键的一步，通过适当的分析应用程序，可以判断什么地方存在SQL注入点。通常只要带有输入提交的动态网页，并且动态网页访问数据库，就可能存在SQL注入漏洞。如果程序员信息安全意识不强，采用动态构造SQL语句访问数据库，并且对用户的输入未进行有效性验证，则存在SQL注入漏洞的可能性很大。一般通过页面的报错信息来确定是否存在SQL注入漏洞。
+                    </p>
+                    <p>
+                        2.
+                        收集后台数据库信息。不同数据库的注入方法、函数都不尽相同，因此在注入之前，我们先要判断一下数据库的类型。判断数据库类型的方法很多，可以输入特殊字符，如单引号，让程序返回错误信息，我们根据错误信息提示进行判断；还可以使用特定函数来判断，比如输入“1
+                        and
+                        version（）>0”，程序返回正常，说明version（）函数被数据库识别并执行，而version（）函数是MySQL特有的函数，因此可以推断后台数据库为MySQL。
+                    </p>
+                    <p>
+                        3. 猜解用户名和密码。数据库中的表和字段命名一般都是有规律的。通过构造特殊SQL语句在数据库中依次猜解出表名、字段名、字段数、用户名和密码。
+                    </p>
+                    <p>
+                        4.
+                        查找Web后台管理入口。WEB后台管理通常不对普通用户开放，要找到后台管理的登录网址，可以利用Web目录扫描工具（如：wwwscan、AWVS）快速搜索到可能的登录地址，然后逐一尝试，便可以找到后台管理平台的登录网址。
+                    </p>
+                    <p>
+                        5.
+                        入侵和破坏。一般后台管理具有较高权限和较多的功能，使用前面已破译的用户名、密码成功登录后台管理平台后，就可以任意进行破坏，比如上传木马、篡改网页、修改和窃取信息等，还可以进一步提权，入侵Web服务器和数据库服务器。
+                    </p>
+                </div>
+                <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                    <h3>注入实例：验证绕过</h3><br>
+                    <p>以该靶机为注入目标，看到需要输入用户名密码，登录验证方式为比较用户名和密码</p>
+                    <img src="img/course/test01/01.png" class="rounded mx-auto d-block img-fluid" alt="图片未加载">
+                    <P>首先尝试随意输入，get请求可以获得参数信息。</P>
+                    <img src="img/course/test01/02.png" class="rounded mx-auto d-block img-fluid" alt="图片未加载">
+                    <p>此时执行的SQL为：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select ？ from ? where id = #{id} and pwd = #{pwd}</code>
+                    </div>
+                    <p>
+                        当查询到数据表中存在同时满足 username 和 password 字段时，会返回登录成功。
+                        我们尝试在用户名中输入 123' or 1=1 #, 密码同样输入 123' or 1=1 。
+                        此时SQL会变为：
+                    </p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select ？ from ? where id = 123 or 1 = 1 and pwd = 123 or 1 = 1</code>
+                    </div>
+                    <p>显然此SQL无论任何id和密码都会验证成功，此时便可登录成功</p>
+                    <img src="/img/course/test01/03.png" class="rounded mx-auto d-block img-fluid" alt="图片未加载">
+                    <a href="/test01" target="_blank">尝试一下</a>
+                </div>
+                <div class="tab-pane" id="judgement" role="tabpanel" aria-labelledby="judgement-tab">
+                    <h3>判断SQL注入点</h3><br>
+                    <p>
+                        通常情况下，可能存在 Sql 注入漏洞的 Url 是类似这种形式 ：<code>http://xxx.xxx.xxx/abcd?id=XX</code>
+                        对 Sql 注入的判断，主要有两个方面：
+                    </p>
+                    <ul>
+                        <li>判断该带参数的 Url 是否存在 Sql 注入？</li>
+                        <li>如果存在 Sql 注入，那么属于哪种 Sql 注入？</li>
+                    </ul>
+                    <p>可能存在 Sql 注入攻击的 ASP/PHP/JSP 动态网页中，一个动态网页中可能只有一个参数，有时可能有多个参数。有时是整型参数，有时是字符串型参数，不能一概而论。总之只要是带有参数的 动态网页且此网页访问了数据库，那么就有可能存在 Sql 注入。如果程序员没有足够的安全意识，没有进行必要的字符过滤，存在SQL注入的可能性就非常大。</p>
+                    <h5 style="font-weight: bold;">判断是否存在SQL注入漏洞</h5><br />
+                    <p>最为经典的单引号判断法,在参数后面加上单引号,比如:</p>
+                    <div class="shadow-sm p-3 mb-5 bg-white rounded"><code style="margin-left: 30px;">http://xxx/abc?id=1</code></div>
+                    <p>如果页面返回错误，则存在 Sql 注入。原因是无论字符型还是整型都会因为单引号个数不匹配而报错，如果未报错，不代表不存在 Sql 注入，因为有可能页面对单引号做了过滤，这时可以使用判断语句进行注入</p>
+                    <h5 style="font-weight: bold;">判断Sql 注入漏洞的类型</h5><br />
+                    <p>通常 Sql 注入漏洞分为 2 种类型：</p>
+                    <ul>
+                        <li>数字型</li>
+                        <li>字符型</li>
+                    </ul>
+                    <p>其实所有的类型都是根据数据库本身表的类型所产生的，在我们创建表的时候会发现其后总有个数据类型的限制，而不同的数据库又有不同的数据类型，但是无论怎么分常用的查询数据类型总是以数字与字符来区分的，所以就会产生注入点为何种类型。</p>
+                    <h6 style="font-weight: bold;">数字型判断</h6>
+                    <p>当输入的参 x 为整型时，通常 abc中 Sql 语句类型大致如下：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = x</code>
+                    </div>
+                    <p>这种类型可以使用经典的 <code>and 1=1</code> 和 <code>and 1=2</code> 来判断：</p>
+                    <ol style="margin-left: 30px;">
+                        <li>Url 地址中输入 <code>http://xxx/abc?id= x and 1=1</code> 页面依旧运行正常，继续进行下一步。</li>
+                        <li>Url 地址中继续输入 <code>http://xxx/abc?id= x and 1=2</code> 页面运行错误，则说明此 Sql 注入为数字型注入。</li>
+                    </ol>
+                    <p>原因如下：</p>
+                    <p>当输入 <code>and 1=1</code>时，后台执行 Sql 语句：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = x and 1=1 </code>
+                    </div>
+                    <p>没有语法错误且逻辑判断为正确，所以返回正常。</p>
+                    <p>当输入 <code>and 1=2</code> 时，后台执行 Sql 语句：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = x and 1=2 </code>
+                    </div>
+                    <p>没有语法错误但是逻辑判断为假，所以返回错误。</p>
+                    <p>我们再使用假设法：如果这是字符型注入的话，我们输入以上语句之后应该出现如下情况：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = 'x and 1=1'  </code>
+                        <code>select * from <表名> where id = 'x and 1=2' </code>
+                    </div>
+                    <p>查询语句将 and 语句全部转换为了字符串，并没有进行 and 的逻辑判断，所以不会出现以上结果，故假设是不成立的。</p>
+                    <a class="nav-link" target="_blank" href="/test02">尝试一下</a>
+                    <h6 style="font-weight: bold;">字符型判断</h6><br />
+                    <p>当输入的参 x 为字符型时，通常 abc 中 SQL 语句类型大致如下：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = 'x' </code>
+                    </div>
+                    <p>这种类型我们同样可以使用 <code>and '1'='1</code> 和 <code>and '1'='2</code>来判断：</p>
+                    <ol style="margin-left: 30px;">
+                        <li>Url 地址中输入 <code>http://xxx/abc?id= x' and '1'='1</code> 页面运行正常，继续进行下一步。</li>
+                        <li>Url 地址中继续输入 <code>http://xxx/abc?id= x' and '1'='2</code> 页面运行错误，则说明此 Sql 注入为字符型注入。</li>
+                    </ol>
+                    <p>原因如下：</p>
+                    <p>当输入 <code>and '1'='1</code>时，后台执行 Sql 语句：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = 'x' and '1'='1'</code>
+                    </div>
+                    <p>语法正确，逻辑判断正确，所以返回正确。</p>
+                    <p>当输入 <code>and '1'='2</code>时，后台执行 Sql 语句：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where id = 'x' and '1'='2'</code>
+                    </div>
+                    <p>语法正确，但逻辑判断错误，所以返回正确。</p>
+                    <a class="nav-link" target="_blank" href="/test03">尝试一下</a>
+                </div>
+                <div class="tab-pane" id="end" role="tabpanel" aria-labelledby="end-tab">
+                    <h3>SQL注入的防御</h3><br>
+                    <p>对于 SQL 注入，我们可以采取适当的预防措施来保护数据安全。下面是避免 SQL 注入的一些方法。</p>
+                    <p style="font-weight: bold;">1. 过滤输入那日容，校验字符串</p>
+                    <p>过滤输入内容就是在数据提交到数据库之前，就把用户输入中的不合法字符剔除掉。可以使用编程语言提供的处理函数或自己的处理函数来进行过滤，还可以使用正则表达式匹配安全的字符串。</p>
+                    <p>如果值属于特定的类型或有具体的格式，那么在拼接 SQL 语句之前就要进行校验，验证其有效性。比如对于某个传入的值，如果可以确定是整型，则要判断它是否为整型，在浏览器端（客户端）和服务器端都需要进行验证。</p>
+                    <br /><p style="font-weight: bold;">2. 参数化查询</p>
+                    <p>参数化查询目前被视作是预防 SQL 注入攻击最有效的方法。参数化查询是指在设计与数据库连接并访问数据时，在需要填入数值或数据的地方，使用参数（Parameter）来给值。</p>
+                    <p>MySQL 的参数格式是以“?”字符加上参数名称而成，如下所示：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>update <表名> set c1 = ? ,c2 = ? where c3 = ?;</code>
+                    </div>
+                    <p>在使用参数化查询的情况下，数据库服务器不会将参数的内容视为 SQL 语句的一部分来进行处理，而是在数据库完成 SQL 语句的编译之后，才套用参数运行。因此就算参数中含有破坏性的指令，也不会被数据库所运行。</p>
+                    <br /><p style="font-weight: bold;">3. 安全测试，安全审计</p>
+                    <p>除了开发规范，还需要合适的工具来确保代码的安全。我们应该在开发过程中应对代码进行审查，在测试环节使用工具进行扫描，上线后定期扫描安全漏洞。通过多个环节的检查，一般是可以避免 SQL 注入的。</p>
+                    <p>有些人认为存储过程可以避免 SQL 注入，存储过程在传统行业里用得比较多，对于权限的控制是有一定用处的，但如果存储过程用到了动态查询，拼接 SQL，一样会存在安全隐患。</p>
+                    <h5 style="font-weight: bold;">开发过程中可以避免SQL注入的一些方法</h5>
+                    <p style="font-weight: bold;">1. 避免使用动态SQL</p>
+                    <p>避免将用户的输入数据直接放入 SQL 语句中，最好使用准备好的语句和参数化查询，这样更安全。</p>
+                    <p style="font-weight: bold;">2. 不要将敏感数据保留在纯文本中</p>
+                    <p>加密存储在数据库中的私有/机密数据，这样可以提供了另一级保护，以防攻击者成功地排出敏感数据。</p>
+                    <p style="font-weight: bold;">3. 限制数据库权限和特权</p>
+                    <p>将数据库用户的功能设置为最低要求；这将限制攻击者在设法获取访问权限时可以执行的操作。</p>
+                    <p style="font-weight: bold;">4. 避免直接向用户显示数据库错误</p>
+                    <p>攻击者可以使用这些错误消息来获取有关数据库的信息。</p>
+                    <p>一些编程框架对于写出更安全的代码也有一定的帮助，因为它提供了一些处理字符串的函数和使用查询参数的方法。但同样，你仍然可以编写出不安全的 SQL 语句。所以归根到底，我们需要有良好的编码规范，并能充分利用参数化查询、字符串处理和参数校验等多种办法来保护数据库和程序的安全。</p>
+                </div>
+                <div class="tab-pane" id="end01" role="tabpanel" aria-labelledby="end01-tab">
+                    <h3>JDBC对SQL注入的防御</h3><br>
+                    <p>JDBC中PrepareStatement可以防止sql注入。原理是采用了预编译的方法，先将SQL语句中可被客户端控制的参数集进行编译，生成对应的临时变量集，再使用对应的设置方法，为临时变量集里面的元素进行赋值，赋值函数setString()，会对传入的参数进行强制类型检查和安全检查，所以就避免了SQL注入的产生。</p>
+                    <p style="font-weight: bold;">为什么Statement会被SQL注入？</p>
+                    <p>因为Statement之所以会被sql注入是因为SQL语句结构发生了变化。比如：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where username='"+uesrname+ "'and password='"+password+"';</code>
+                    </div>
+                    <p>在用户输入'or true or'之后sql语句结构改变。</p>
+                    <p>这样本来是判断用户名和密码都匹配时才会计数，但是经过改变后变成了或的逻辑关系，不管用户名和密码是否匹配该式的返回值永远为true;</p>
+                    <p style="font-weight: bold;">为什么Preparement可以防止SQL注入？</p>
+                    <p>因为Preparement样式为</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select * from <表名> where username = ? and password = ?;</code>
+                    </div>
+                    <p>该SQL语句会在得到用户的输入之前先用数据库进行预编译，这样的话不管用户输入什么用户名和密码的判断始终都是并的逻辑关系，防止了SQL注入</p>
+                    <p>简单总结，参数化能防注入的原因在于，语句是语句，参数是参数，参数的值并不是语句的一部分，数据库只按语句的语义跑，至于跑的时候是带一个普通背包还是一个怪物，不会影响行进路线，无非跑的快点与慢点的区别。</p>
+                </div>
+                <div class="tab-pane" id="end02" role="tabpanel" aria-labelledby="end02-tab">
+                    <h3>MyBatis对SQL注入的防御</h3><br>
+                    <p>MyBatis框架作为一款半自动化的持久层框架，其SQL语句都要我们自己手动编写，这个时候当然需要防止SQL注入。</p>
+                    <p>MyBatis示例：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>
+                            <pre>&lt;id="selectByNameAndPassword" parameterType="java.util.Map" resultMap="BaseResultMap"&gt;</pre>
+                            <pre>select id, username, password, role</pre>
+                            <pre>from user</pre>
+                            <pre>where username = #{username,jdbcType=VARCHAR}</pre>
+                            <pre>and password = #{password,jdbcType=VARCHAR}</pre>
+                            <pre>&lt;/select&gt;</pre>
+                        </code>
+                    </div>
+                    <p>MyBatis的SQL是一个具有“输入+输出”的功能，类似于函数的结构，参考上面的例子。其中，parameterType表示了输入的参数类型，resultType表示了输出的参数类型。回应上文，如果我们想防止SQL注入，理所当然地要在输入参数上下功夫。上面代码中使用#的即输入参数在SQL中拼接的部分，传入参数后，打印出执行的SQL语句，会看到SQL是这样的：</p>
+                    <div class="shadow p-3 mb-5 bg-white rounded" style="margin-left: 30px">
+                        <code>select id, username, password, role from user where username=? and password=?</code>
+                    </div>
+                    <p>不管输入什么参数，打印出的SQL都是这样的。这是因为MyBatis启用了预编译功能，在SQL执行前，会先将上面的SQL发送给数据库进行编译；执行时，直接使用编译好的SQL，替换占位符“?”就可以了。因为SQL注入只能对编译过程起作用，所以这样的方式就很好地避免了SQL注入的问题。</p>
+                    <p>【底层实现原理】MyBatis是如何做到SQL预编译的呢？其实在框架底层，是JDBC中的PreparedStatement类在起作用，PreparedStatement是我们很熟悉的Statement的子类，它的对象包含了编译好的SQL语句。这种“准备好”的方式不仅能提高安全性，而且在多次执行同一个SQL时，能够提高效率。原因是SQL已编译好，再次执行时无需再编译</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+</body>
+</html>

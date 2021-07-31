@@ -1,0 +1,14 @@
+2021-07-11 11:17:174 === [main] === INFO  === com.why.qianyu.QianyuApplication === Starting QianyuApplication using Java 1.8.0_181 on DESKTOP-77MTB49 with PID 15340 (E:\课程学习\大三下\入侵检测实验\课程设计\qianyu\target\classes started by why in E:\课程学习\大三下\入侵检测实验\课程设计\qianyu)
+2021-07-11 11:17:174 === [main] === INFO  === com.why.qianyu.QianyuApplication === No active profile set, falling back to default profiles: default
+2021-07-11 11:17:252 === [main] === INFO  === o.s.boot.web.embedded.tomcat.TomcatWebServer === Tomcat initialized with port(s): 8080 (http)
+2021-07-11 11:17:267 === [main] === INFO  === org.apache.catalina.core.StandardService === Starting service [Tomcat]
+2021-07-11 11:17:267 === [main] === INFO  === org.apache.catalina.core.StandardEngine === Starting Servlet engine: [Apache Tomcat/9.0.48]
+2021-07-11 11:17:595 === [main] === INFO  === o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] === Initializing Spring embedded WebApplicationContext
+2021-07-11 11:17:595 === [main] === INFO  === o.s.b.w.s.c.ServletWebServerApplicationContext === Root WebApplicationContext: initialization completed in 3280 ms
+2021-07-11 11:17:376 === [main] === INFO  === o.s.boot.web.embedded.tomcat.TomcatWebServer === Tomcat started on port(s): 8080 (http) with context path ''
+2021-07-11 11:17:454 === [main] === INFO  === com.why.qianyu.QianyuApplication === Started QianyuApplication in 6.945 seconds (JVM running for 9.112)
+2021-07-11 11:18:447 === [http-nio-8080-exec-1] === INFO  === o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] === Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-07-11 11:18:447 === [http-nio-8080-exec-1] === INFO  === org.springframework.web.servlet.DispatcherServlet === Initializing Servlet 'dispatcherServlet'
+2021-07-11 11:18:447 === [http-nio-8080-exec-1] === INFO  === org.springframework.web.servlet.DispatcherServlet === Completed initialization in 0 ms
+2021-07-11 11:19:301 === [http-nio-8080-exec-6] === INFO  === com.zaxxer.hikari.HikariDataSource === HikariPool-1 - Starting...
+2021-07-11 11:19:585 === [http-nio-8080-exec-6] === INFO  === com.zaxxer.hikari.HikariDataSource === HikariPool-1 - Start completed.

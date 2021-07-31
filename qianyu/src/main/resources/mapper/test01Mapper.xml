@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 映射SQL语句 -->
+<!-- namespace：名称空间指定为接口的全类名 -->
+<mapper namespace="com.why.qianyu.dao.Test01Mapper">
+    <select id="getUser" resultType="com.why.qianyu.entity.Test01">
+        select * from test01 where id = #{id}
+    </select>
+
+    <select id="getTest02" resultType="string">
+        select * from test02 where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <title>课程界面</title>
+
+    <style>
+        #nav-title{
+            margin: 50px auto;
+            height: 75px;
+        }
+        #nav-title ul{
+            list-style: none;
+            margin-left: 50px;
+        }
+        #nav-title li{
+            display: inline;
+        }
+        #nav-title a{
+            line-height: 40px;
+            color: #494f54;
+            text-decoration: none;
+            padding: 20px 20px;
+        }
+        #nav-title a:hover{
+            color: #adb5bd;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div id="nav-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 75px">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+                <a class="navbar-brand" href="#">
+                    <img src="/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                    千羽
+                </a>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">首页<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">解决方案</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">关于我们</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">企业文化</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">多人协作</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">联系我们</a>
+                        </li>
+                    </ul>
+
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                               style="width: 400px">
+                        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">搜素</button>
+                    </form>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <div class="btn-group dropdown">
+                        <button type="button"
+                                class="btn dropdown-toggle btn-outline-success" style="position: relative"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" th:if="${login}" th:text="${login}">
+                            请登录
+                        </button>
+                        <button type="button"
+                                class="btn dropdown-toggle btn-outline-success" style="position: relative"
+                                data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" th:unless="${login}" th:text="${login}">
+                            请登录
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">个人中心</a>
+                            <a class="dropdown-item" href="#">消息</a>
+                            <a class="dropdown-item" href="#">创作管理</a>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger"><a href="" style="color: #b02a37">退出</a>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div id="nav-bottom" class="container">
+        <ul id="nav-title">
+            <li style="font-weight: bold">分类：</li>
+            <li><a href="#">网络安全</a></li>
+            <li><a href="#">Java</a></li>
+            <li><a href="#">C++</a></li>
+        </ul>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;height: 20px">
+                    <img class="card-img-top" src="/img/course/sqlInjection.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">SQL注入</h5>
+                        <p class="card-text">SQL注入是比较常见的网络攻击方式之一，是针对程序员编写时的疏忽，通过SQL语句，实现无账号登录，甚至篡改数据库。</p>
+                        <a href="/sqlInjection" class="card-link">开始学习</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;height: 30px">
+                    <img class="card-img-top" src="/img/course/sqlInjection.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">SQL注入</h5>
+                        <p class="card-text">SQL注入是比较常见的网络攻击方式之一，是针对程序员编写时的疏忽，通过SQL语句，实现无账号登录，甚至篡改数据库。</p>
+                        <a href="#" class="card-link">开始学习</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="card" style="width: 18rem;height: 30px">
+                    <img class="card-img-top" src="/img/course/sqlInjection.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">SQL注入</h5>
+                        <p class="card-text">SQL注入是比较常见的网络攻击方式之一，是针对程序员编写时的疏忽，通过SQL语句，实现无账号登录，甚至篡改数据库。</p>
+                        <a href="#" class="card-link">开始学习</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
